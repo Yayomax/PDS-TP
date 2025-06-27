@@ -4,7 +4,6 @@ public abstract class UsuarioDecorador extends Usuario {
     protected Usuario decorateUsuario;
 
     public UsuarioDecorador(Usuario usuario) {
-        super(usuario.getNombre(), usuario.getEmail(), usuario.getContraseña());
         this.decorateUsuario = usuario;
     }
 
@@ -14,5 +13,11 @@ public abstract class UsuarioDecorador extends Usuario {
     public String getEmail() { return decorateUsuario.getEmail(); }
     @Override
     public String getContraseña() { return decorateUsuario.getContraseña(); }
+    @Override
+    public void setNombre(String nombre) { decorateUsuario.setNombre(nombre); }
+    @Override
+    public void setEmail(String email) { decorateUsuario.setEmail(email); }
+    @Override
+    public void setContraseña(String contraseña) { decorateUsuario.setContraseña(contraseña); }
     public Usuario getUsuario() { return decorateUsuario; }
 }
