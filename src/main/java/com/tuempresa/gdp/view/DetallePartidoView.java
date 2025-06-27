@@ -77,6 +77,7 @@ public class DetallePartidoView {
     }
 
     private void refreshDetails() {
+        partido.actualizarEstadoSiCorresponde(); // Actualiza el estado por tiempo antes de mostrar
         Usuario usuarioActual = UsuarioController.getInstance().getUsuarioActual();
         int total = partido.getJugadores().size();
         int confirmados = partido.getConfirmaciones().size();
@@ -128,7 +129,7 @@ public class DetallePartidoView {
         } else if (!partido.getJugadores().contains(usuarioActual)) {
             if (!root.getChildren().contains(btnUnirse)) root.getChildren().add(btnUnirse);
         }
-        if (partido.getEstado() instanceof com.tuempresa.gdp.model.state.Cancelado) {
+        if (partido.getEstado() instanceof com.tuempresa.gdp.model.state.Cancelado || partido.getEstado() instanceof com.tuempresa.gdp.model.state.Finalizado) {
             Button btnEliminar = new Button("Eliminar Partido");
             btnEliminar.setOnAction(e -> {
                 PartidoController.getInstance().eliminarParaUsuario(partido, usuarioActual);

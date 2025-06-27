@@ -34,6 +34,9 @@ public class BuscarPartidoView {
             protected void updateItem(Partido item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? "" : item.getDeporte() + " en " + item.getUbicacion());
+                if (!empty && item != null) {
+                    item.actualizarEstadoSiCorresponde(); // Actualiza el estado antes de mostrar
+                }
             }
         });
         resultados.setOnMouseClicked(event -> {

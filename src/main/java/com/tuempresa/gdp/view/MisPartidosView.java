@@ -35,9 +35,26 @@ public class MisPartidosView {
                 if (empty || item == null) {
                     setText("");
                 } else {
+                    item.actualizarEstadoSiCorresponde();
                     String txt = item.getDeporte() + " en " + item.getUbicacion();
-                    if (item.getEstado() instanceof com.tuempresa.gdp.model.state.Cancelado) {
-                        txt += " (cancelado)";
+                    if (item.getEstado() instanceof com.tuempresa.gdp.model.state.Cancelado || item.getEstado() instanceof com.tuempresa.gdp.model.state.Finalizado) {
+                        txt += " (" + item.getEstado().toString() + ")";
+                    }
+                    setText(txt);
+                }
+            }
+        });
+        listCreados.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Partido item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    item.actualizarEstadoSiCorresponde();
+                    String txt = item.getDeporte() + " en " + item.getUbicacion();
+                    if (item.getEstado() instanceof com.tuempresa.gdp.model.state.Cancelado || item.getEstado() instanceof com.tuempresa.gdp.model.state.Finalizado) {
+                        txt += " (" + item.getEstado().toString() + ")";
                     }
                     setText(txt);
                 }

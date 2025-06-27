@@ -42,6 +42,7 @@ public class DashboardView {
         Runnable recargar = () -> {
             var partidosFiltrados = PartidoController.getInstance().getAll().stream()
                 .filter(p -> !(p.getEstado() instanceof com.tuempresa.gdp.model.state.Cancelado)
+                        && !(p.getEstado() instanceof com.tuempresa.gdp.model.state.Finalizado)
                         && !(p.getEstado() instanceof com.tuempresa.gdp.model.state.Armado))
                 .filter(p -> !PartidoController.getInstance().isOcultoParaUsuario(p, UsuarioController.getInstance().getUsuarioActual()))
                 .toList();
@@ -51,7 +52,12 @@ public class DashboardView {
             @Override
             protected void updateItem(Partido item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getDeporte() + " en " + item.getUbicacion());
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    item.actualizarEstadoSiCorresponde(); // Actualiza el estado antes de mostrar
+                    setText(item.getDeporte() + " en " + item.getUbicacion());
+                }
             }
         });
         listaPartidos.setOnMouseClicked(event -> {

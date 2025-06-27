@@ -10,7 +10,8 @@ public class EnJuego implements EstadoPartido {
     }
     @Override
     public void confirmarJugador(Partido partido, Usuario usuario) {
-        partido.setEstado(new Finalizado());
+        // No debe cambiar a Finalizado por confirmación, solo por tiempo
+        // Si se quiere notificar, hacerlo aquí
     }
     @Override
     public String toString() {

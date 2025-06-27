@@ -43,6 +43,24 @@ public class Partido {
     public Usuario getCreador() { return creador; }
     public List<Usuario> getConfirmaciones() { return confirmaciones; }
 
+    public void actualizarEstadoSiCorresponde() {
+        LocalDateTime ahora = LocalDateTime.now();
+        // Confirmado -> EnJuego solo si la hora actual es igual o posterior al horario del partido
+        if (estado instanceof com.tuempresa.gdp.model.state.Confirmado) {
+            if (!ahora.isBefore(horario)) {
+                setEstado(new com.tuempresa.gdp.model.state.EnJuego());
+            }
+        }
+        // EnJuego -> Finalizado solo si la hora actual es igual o posterior al fin del partido
+        else if (estado instanceof com.tuempresa.gdp.model.state.EnJuego) {
+            LocalDateTime fin = horario.plusMinutes(duracion);
+            if (!ahora.isBefore(fin)) {
+                setEstado(new com.tuempresa.gdp.model.state.Finalizado());
+            }
+        }
+        // Otros estados no cambian automáticamente por tiempo
+    }
+
     @Override
     public String toString() {
         return deporte + " en " + ubicacion;
