@@ -27,6 +27,9 @@ public class PartidoController {
         if (creador != null && !partido.getJugadores().contains(creador)) {
             partido.getJugadores().add(creador);
         }
+        if (creador != null) {
+            partido.agregarObservador(creador);
+        }
         partidos.add(partido);
         return partido;
     }
@@ -44,6 +47,9 @@ public class PartidoController {
         Partido partido = FactoryPartido.crearPartido(deporte, ubicacion, horario, duracion, cantidadJugadores, new NecesitamosJugadores(), estrategiaEmparejamiento, creador);
         if (creador != null && !partido.getJugadores().contains(creador)) {
             partido.getJugadores().add(creador);
+        }
+        if (creador != null) {
+            partido.agregarObservador(creador);
         }
         partidos.add(partido);
         return partido;
@@ -77,6 +83,7 @@ public class PartidoController {
             return false; // cupo lleno
         }
         partido.getJugadores().add(usuario);
+        partido.agregarObservador(usuario);
         NotificacionController.getInstance().notificar(usuario.getNombre() + " se unió al partido de " + partido.getDeporte());
         // Cambio automático a Armado
         if (partido.getJugadores().size() >= partido.getCantidadJugadores()

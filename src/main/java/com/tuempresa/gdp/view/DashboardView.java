@@ -34,7 +34,9 @@ public class DashboardView {
         btnMisPartidos.setOnAction(e -> SceneManager.showMisPartidos());
         Button btnPerfil = new Button("Ver Perfil");
         btnPerfil.setOnAction(e -> SceneManager.showPerfil());
-        topBar.getChildren().addAll(btnBuscar, btnCrear, btnMisPartidos, btnPerfil);
+        Button btnNotificaciones = new Button("Mis Notificaciones");
+        btnNotificaciones.setOnAction(e -> SceneManager.showMisNotificaciones());
+        topBar.getChildren().addAll(btnBuscar, btnCrear, btnMisPartidos, btnPerfil, btnNotificaciones);
         root.getChildren().add(topBar);
 
         // Mostrar todos los partidos disponibles (sin filtro de emparejamiento)

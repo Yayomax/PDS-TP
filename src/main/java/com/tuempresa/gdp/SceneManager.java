@@ -65,4 +65,10 @@ public class SceneManager {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Perfil");
     }
+    public static void showMisNotificaciones() {
+        MisNotificacionesView view = new MisNotificacionesView();
+        Scene scene = new Scene(view.getRoot());
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Mis Notificaciones");
+    }
 }

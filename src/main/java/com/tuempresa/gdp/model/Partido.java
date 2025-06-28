@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import com.tuempresa.gdp.model.state.EstadoPartido;
 import com.tuempresa.gdp.model.strategy.EstrategiaEmparejamiento;
+import com.tuempresa.gdp.model.observer.NotificacionObserver;
+import com.tuempresa.gdp.model.observer.PartidoObservable;
 
-public class Partido {
+public class Partido implements PartidoObservable {
     private String deporte;
     private String ubicacion;
     private LocalDateTime horario;
@@ -17,6 +19,7 @@ public class Partido {
     private EstrategiaEmparejamiento estrategiaEmparejamiento;
     private Usuario creador;
     private List<Usuario> confirmaciones = new ArrayList<>();
+    private List<NotificacionObserver> observadores = new ArrayList<>();
 
     public Partido(String deporte, String ubicacion, LocalDateTime horario, int duracion, int cantidadJugadores, EstadoPartido estado, EstrategiaEmparejamiento estrategiaEmparejamiento, Usuario creador) {
         this.deporte = deporte;
@@ -37,7 +40,11 @@ public class Partido {
     public int getCantidadJugadores() { return cantidadJugadores; }
     public List<Usuario> getJugadores() { return jugadores; }
     public EstadoPartido getEstado() { return estado; }
-    public void setEstado(EstadoPartido estado) { this.estado = estado; }
+    public void setEstado(EstadoPartido estado) {
+        this.estado = estado;
+        String mensaje = "El partido de " + deporte + " en " + ubicacion + " cambió de estado a: " + estado.toString();
+        notificarObservadores(mensaje);
+    }
     public EstrategiaEmparejamiento getEstrategiaEmparejamiento() { return estrategiaEmparejamiento; }
     public void setEstrategiaEmparejamiento(EstrategiaEmparejamiento estrategiaEmparejamiento) { this.estrategiaEmparejamiento = estrategiaEmparejamiento; }
     public Usuario getCreador() { return creador; }
@@ -64,5 +71,24 @@ public class Partido {
     @Override
     public String toString() {
         return deporte + " en " + ubicacion;
+    }
+
+    @Override
+    public void agregarObservador(NotificacionObserver observer) {
+        if (!observadores.contains(observer)) {
+            observadores.add(observer);
+        }
+    }
+
+    @Override
+    public void quitarObservador(NotificacionObserver observer) {
+        observadores.remove(observer);
+    }
+
+    @Override
+    public void notificarObservadores(String mensaje) {
+        for (NotificacionObserver obs : observadores) {
+            obs.notificar(mensaje);
+        }
     }
 }
